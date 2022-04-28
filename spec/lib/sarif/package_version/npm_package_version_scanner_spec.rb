@@ -17,7 +17,7 @@ describe Sarif::NPMPackageScannerSarif do
       scanner.run
       report = Salus::Report.new(project_name: "Neon Genesis")
       report.add_scan_report(scanner.report, required: false)
-      sarif = JSON.parse(report.to_sarif)
+      sarif = JSON.parse(report.to_sarif({ 'include_non_enforced' => true }))
 
       # contains rule
       expect(sarif['runs'][0]['tool']['driver']['rules'][0]).to include(
@@ -34,15 +34,15 @@ describe Sarif::NPMPackageScannerSarif do
       expect(sarif['runs'][0]['results']).to include(
         { "ruleId" => "PV0001",
          "ruleIndex" => 0, "level" => "error",
-         "message" => { "text" => "Package version for (mobx) (3.6.2)is less than minimum" \
-         " configured version (3.6.3) on line {13} in package-lock.json" },
+         "message" => { "text" => "Package version for (mobx) (3.6.2) is less than minimum" \
+         " configured version (3.6.3) on line {13} in package-lock.json." },
          "locations" => [{ "physicalLocation" => {
            "artifactLocation" => { "uri" => "package-lock.json",
          "uriBaseId" => "%SRCROOT%" }, "region" => {
            "startLine" => 13, "startColumn" => 1
          }
          } }],
-           "properties" => { "severity" => "HIGH" }, "suppressions" => [{ "kind" => "external" }] }
+           "properties" => { "severity" => "HIGH" } }
       )
     end
   end

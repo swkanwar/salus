@@ -46,6 +46,14 @@ project_name: "my-repo"
 # that might be used by the consumer of the Salus report.
 custom_info: "PR-123"
 
+
+# Cascade_config contains available settings to control how multiple configuration
+# files are cascaded.
+# Combine_arrays: Boolean.  Default: false.  When cascading configurations, determines if arrays are combined (with uniq applied) or if the current configuration overrides any previsouly loaded configurations (the default)
+cascade_config:
+  combine_arrays: false
+
+
 # Array[Hash[String=>String]]
 # Defines where to send Salus reports and in what format.
 #
@@ -71,7 +79,9 @@ custom_info: "PR-123"
 # Additional options are also available for sarif using the optional keyword: sarif_options
 # The available options for the sarif_options keyword are:
 # 1) `include_suppressed: true/false` -This option allows users to include/exclude suppressed/excluded results 
-#    in their sarif reports. Currently this is supported for NPM audit reports
+#    in their sarif reports. Currently this is supported for NPM audit reports.  Default is true.
+# 2) `include_non_enforced: true/false` - This option allows users to include or exclude results from active (non enforced)
+#    scanners in their sarif reports.  Default is true.
 #
 # Additional options are also available for cyclonedx using the optional keyword: cyclonedx_options
 # The available options for the cyclonedx_options keyword are:
